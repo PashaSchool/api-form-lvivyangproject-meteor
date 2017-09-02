@@ -7,9 +7,25 @@ import {SchemaId} from './schema/id.schema.js';
 
 export const Branch = new Mongo.Collection('branch');
 
+
+function getNewObject(o, n) {
+	n = Object.assign({}, o);
+
+	return n;
+}
+
 Meteor.methods({
 	'branch.getAll'() {
 		return Branch.find({}).fetch()
+	},
+	'branch.getById'(_id) {
+		try {
+			SchemaId.validate({_id})
+		} catch(e) {
+			throw new Meteor.Error(e.message)
+		}
+
+		return Branch.find({_id}, {limit: 1}).fetch()[0]
 	},
 	'branch.insert'(branch) {
 		// let {title, subTitle, isHidden, order} = branch;
@@ -18,16 +34,25 @@ Meteor.methods({
 		} catch(e) {
 			throw new Meteor.Error(e.message)
 		}
-		Branch.insert(branch)
+		return Branch.insert(branch)
 	},
 	'branch.remove'(_id) {
+		if(!this.userId) {
+			throw new Meteor.Error('Потрібна авторизація')
+		}
 
 		try {
 			SchemaId.validate({_id});
 		} catch(e) {
 			throw new Meteor.Error(e.massage)
 		}
-		Branch.remove(_id)
+
+		let branch;
+
+		return Promise.resolve({...Branch.find({_id}).fetch()[0]})
+			.then(obj => branch = obj)
+			.then(() => Branch.remove({_id}))
+			.then(() => branch)
 
 	},
 	'branch.reset'() {
