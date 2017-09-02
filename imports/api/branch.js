@@ -8,11 +8,7 @@ import {SchemaId} from './schema/id.schema.js';
 export const Branch = new Mongo.Collection('branch');
 
 
-function getNewObject(o, n) {
-	n = Object.assign({}, o);
-
-	return n;
-}
+const returnCurrentBranch = (_id) => Branch.find({_id}).fetch()[0];
 
 Meteor.methods({
 	'branch.getAll'() {
@@ -25,14 +21,16 @@ Meteor.methods({
 			throw new Meteor.Error(e.message)
 		}
 
-		return Branch.find({_id}, {limit: 1}).fetch()[0]
+		return returnCurrentBranch(_id)
 	},
 	'branch.insert'(branch) {
-		// let {title, subTitle, isHidden, order} = branch;
+		if(!this.userId) {
+			throw new Meteor.Error('You are not have registration to do that')
+		}
 		try {
 			BranchSchema.validate(branch)
 		} catch(e) {
-			throw new Meteor.Error(e.message)
+			return { error: new Meteor.Error(e.message) }
 		}
 		return Branch.insert(branch)
 	},
@@ -49,7 +47,7 @@ Meteor.methods({
 
 		let branch;
 
-		return Promise.resolve({...Branch.find({_id}).fetch()[0]})
+		return Promise.resolve({...returnCurrentBranch(_id)})
 			.then(obj => branch = obj)
 			.then(() => Branch.remove({_id}))
 			.then(() => branch)
@@ -59,19 +57,30 @@ Meteor.methods({
 		return Branch.remove({});
 	},
 	'branch.update'(_id, updates) {
-		console.log('the branch from api folder is', _id, updates);
+		if(!this.userId) {
+			throw new Meteor.Error('Потрібна авторизація')
+		}
 		try {
 			new SimpleSchema({
 				_id: {
 					type: String
+				},
+				title: {
+					type: String,
+					optional: true
+				},
+				isHidden: {
+					type: Boolean,
+					optional: true
 				}
-			}).validate({_id})
+			}).validate({_id, ...updates});	
 			
-		} catch( e ) {
-			throw new Meteor.Error(e.message)
+		} catch(e) {
+			return {error: new Meteor.Error(e)}
 		}
 
-		Branch.update({_id}, {$set: {...updates} })
+		return Promise.resolve(Branch.update({_id}, {$set: {...updates} }))
+			.then(() => returnCurrentBranch(_id))
 	}
 })
 
