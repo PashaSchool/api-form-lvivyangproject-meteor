@@ -55,7 +55,7 @@ if(Meteor.isServer) {
 			action() {
 				let newBranch = this.bodyParams;
 				return {
-					body {
+					body: {
 						data: Meteor.call('branch.insert', newBranch),
 						headers: {
 							'Content-Type': 'application/json',
