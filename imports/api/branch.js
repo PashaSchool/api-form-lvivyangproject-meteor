@@ -24,9 +24,9 @@ Meteor.methods({
 		return returnCurrentBranch(_id)
 	},
 	'branch.insert'(branch) {
-		if(!this.userId) {
-			throw new Meteor.Error('You are not have registration to do that')
-		}
+		// if(!this.userId) {
+		// 	throw new Meteor.Error('You are not have registration to do that')
+		// }
 		try {
 			BranchSchema.validate(branch)
 		} catch(e) {

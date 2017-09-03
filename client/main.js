@@ -30,30 +30,18 @@ Meteor.startup(() => {
 			order: 3, 
 			isHidden: false
 		};
-		let postOption = {
-			method: 'POST',
-			url: 'https://lviv-it-yangproject-api.herokuapp.com/api/branches/addNewBranch',
-			data,
+		let config = {
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
 				'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-			},
-			json: true
+			}
 		};
-		axios(postOption);
-		// axios.post('https://lviv-it-yangproject-api.herokuapp.com/api/branches/addNewBranch', {
-		// 	data: {title: "updatet title", 
-		// 	order: 3, 
-		// 	isHidden: false},
-		// 	headers: {
-							// 'Content-Type': 'application/json',
-							// 'Access-Control-Allow-Origin': '*',
-							// 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-							// 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-		// 	}
-		// })
+		
+		axios.post('https://lviv-it-yangproject-api.herokuapp.com/api/branches/addNewBranch', data, config)
+		.then((response) => console.log('data is', response ))
+		.catch((error) => console.log('the error is in', error))
 		
 	})
 })
