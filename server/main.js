@@ -5,7 +5,15 @@ import { Restivus } from 'meteor/nimble:restivus'
 
 
 if(Meteor.isServer) {
-	const API = new Restivus({useDefaultAuth: false});
+	const API = new Restivus({
+		useDefaultAuth: false,
+		defaultHeaders: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+			'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+}
+	});
 
 	API.addCollection(Branch);
 
