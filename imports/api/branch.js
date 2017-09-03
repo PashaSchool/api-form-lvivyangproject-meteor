@@ -10,10 +10,10 @@ export const Branch = new Mongo.Collection('branch');
 
 const returnCurrentBranch = (_id) => Branch.find({_id}).fetch()[0];
 
+const getAllBranch = () => Branch.find({}).fetch();
+
 Meteor.methods({
-	'branch.getAll'() {
-		return Branch.find({}).fetch()
-	},
+	'branch.getAll'() { return getAllBranch()},
 	'branch.getById'(_id) {
 		try {
 			SchemaId.validate({_id})
@@ -71,6 +71,10 @@ Meteor.methods({
 				},
 				isHidden: {
 					type: Boolean,
+					optional: true
+				},
+				order: {
+					type: Number,
 					optional: true
 				}
 			}).validate({_id, ...updates});	
