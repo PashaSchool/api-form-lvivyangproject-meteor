@@ -85,35 +85,25 @@ if(Meteor.isServer) {
 				};
 			}
 		},
-		// put: {
-		// 	action() {
-		// 		let id = this.urlParams.branchId;
-		// 		let updates = this.bodyParams;
-		// 		console.log(id, updates);
-		// 		return {
-		// 			statusCode :200,
-		// 			body: {
-		// 				status: "success",
-		// 				data: Meteor.call('branch.update', id, updates)
-		// 			}
-		// 		}
-		// 	}
-		// },
+		put: {
+			action() {
+				let id = this.urlParams.branchId;
+				let updates = this.bodyParams;
+				console.log(id, updates);
+				return {
+					statusCode :200,
+					body: {
+						status: "success",
+						data: Meteor.call('branch.update', id, updates)
+					}
+				}
+			}
+		},
 		get: {
 			action() {
 				const _id = this.urlParams.branchId;
 				console.log(_id);
-				return {
-					body: {
-						data: Meteor.call('branch.getById', _id),
-						headers: {
-								'Content-Type': 'application/json',
-								'Access-Control-Allow-Origin': '*',
-								'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-								'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-						}
-					}
-				}
+				return { data: Meteor.call('branch.getById', _id) }
 			}
 		}
 	}); // update and delete some branches

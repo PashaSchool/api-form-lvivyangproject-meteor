@@ -4,25 +4,13 @@ import { Tracker } from 'meteor/tracker'
 
 import axios from 'axios'
 
-
-
-// Tracker.autorun(() => console.log(Branch.find({id: 2}).fetch() ))
-
+const API_URL = 'https://lviv-it-yangproject-api.herokuapp.com';
 Meteor.startup(() => {
 	document.getElementById('btn').addEventListener('click', function() {
-		axios.get('https://lviv-it-yangproject-api.herokuapp.com/api/branches/rgAdiC2fYHnHuwkHz').then(res => {
+		axios.get('http://localhost:3000/api/branches').then(res => {
 			console.log(res)
 		})
 	});
-
-	// document.getElementById('btnFetch').addEventListener('click', function() {
-	// 	axios.post('https://lviv-it-yangproject-api.herokuapp.com/api/branches/addNewBranch', {
-	// 		title: "updatet title", 
-	// 		order: 3, 
-	// 		isHidden: false
-	// 	});
-	// 	// console.?log(d )
-	// })
 
 	document.getElementById('btnFetch').addEventListener('click', function() {
 		let data = {
@@ -39,7 +27,7 @@ Meteor.startup(() => {
 			}
 		};
 		
-		axios.post('https://lviv-it-yangproject-api.herokuapp.com/api/branches/addNewBranch', data, config)
+		axios.post('http://localhost:3000/api/branches/addNewBranch', data, config)
 		.then((response) => console.log('data is', response ))
 		.catch((error) => console.log('the error is in', error))
 		
