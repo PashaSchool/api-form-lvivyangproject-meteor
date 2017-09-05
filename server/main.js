@@ -102,10 +102,10 @@ if(Meteor.isServer) {
 		get: {
 			action() {
 				const _id = this.urlParams.branchId;
-
+				console.log(_id);
 				return {
 					body: {
-						data: Meteor.call('branch.getById'),
+						data: Meteor.call('branch.getById', _id),
 						headers: {
 								'Content-Type': 'application/json',
 								'Access-Control-Allow-Origin': '*',
