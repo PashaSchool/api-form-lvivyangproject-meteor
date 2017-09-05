@@ -5,20 +5,23 @@ import { Tracker } from 'meteor/tracker'
 import axios from 'axios'
 
 const API_URL = 'https://lviv-it-yangproject-api.herokuapp.com';
+const LOCAL_URL = 'http://localhost:3000';
+
 Meteor.startup(() => {
 	document.getElementById('btn').addEventListener('click', function() {
-		axios.get('http://localhost:3000/api/branches').then(res => {
+		axios.get(API_URL + '/api/branches').then(res => {
 			console.log(res)
 		})
 	});
 
 	document.getElementById('btnFetch').addEventListener('click', function() {
 		let data = {
-			title: "updatet title", 
-			order: 3, 
+			title: "DEEEEEEE", 
+			order: 10, 
 			isHidden: false
 		};
 		let config = {
+			data,
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
@@ -27,8 +30,8 @@ Meteor.startup(() => {
 			}
 		};
 		
-		axios.post('http://localhost:3000/api/branches/addNewBranch', data, config)
-		.then((response) => console.log('data is', response ))
+		axios.post(API_URL + '/api/branches/addNewBranch', config)
+		.then(res => console.log('the response is', res))
 		.catch((error) => console.log('the error is in', error))
 		
 	})
