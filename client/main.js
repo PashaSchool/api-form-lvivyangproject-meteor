@@ -10,7 +10,7 @@ import axios from 'axios'
 
 Meteor.startup(() => {
 	document.getElementById('btn').addEventListener('click', function() {
-		axios.get('https://lviv-it-yangproject-api.herokuapp.com/api/branches').then(res => {
+		axios.get('https://lviv-it-yangproject-api.herokuapp.com/api/branches/rgAdiC2fYHnHuwkHz').then(res => {
 			console.log(res)
 		})
 	});

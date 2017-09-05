@@ -2,6 +2,8 @@ import {Mongo} from 'meteor/mongo'
 import {Meteor} from 'meteor/meteor'
 import {SimpleSchema} from 'meteor/aldeed:simple-schema'
 
+
+//schema
 import {BranchSchema} from './schema/branch.schema.js'
 import {SchemaId} from './schema/id.schema.js';
 

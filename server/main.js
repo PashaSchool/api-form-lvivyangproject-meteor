@@ -7,12 +7,14 @@ import { Restivus } from 'meteor/nimble:restivus'
 if(Meteor.isServer) {
 	const API = new Restivus({
 		useDefaultAuth: false,
+		enableCors: true,
+		prettyJson: true,
 		defaultHeaders: {
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Origin': '*',
 			'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
 			'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
-}
+		}
 	});
 
 	API.addCollection(Branch);
@@ -102,7 +104,15 @@ if(Meteor.isServer) {
 				const _id = this.urlParams.branchId;
 
 				return {
-					data: Meteor.call('branch.getById')
+					body: {
+						data: Meteor.call('branch.getById'),
+						headers: {
+								'Content-Type': 'application/json',
+								'Access-Control-Allow-Origin': '*',
+								'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+								'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
+						}
+					}
 				}
 			}
 		}
