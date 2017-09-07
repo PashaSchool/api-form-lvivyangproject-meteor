@@ -1,27 +1,20 @@
-import {SimpleSchema} from 'meteor/aldeed:simple-schema'
+import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+import { lmrStructureUnits } from './structure_utinst.schema'
 
 export const BranchSchema = new SimpleSchema({
-	title: {
-		type: String
-	},
-	subTitle: {
-		type: String,
-		optional: true
-	},
-	order: {
-		type: Number,
-		label: "порядок не встановленний"
-	},
-	isHidden: {
-		type: Boolean,
-		label: "Встановити видимість"
-	},
-	id: {
-		type: String,
-		optional: true
-	},
-	_id: {
-		type: String,
-		optional: true
-	}
+    title: {
+        type: String
+    },
+    order: {
+        type: Number,
+        label: "порядок не встановленний"
+    },
+    _id: {
+        type: String
+    },
+    lmr_structure_units: {
+        type: [lmrStructureUnits],
+        optional: true
+    }
+
 })
