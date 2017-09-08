@@ -1,9 +1,12 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 export const lmrStructureUnits = new SimpleSchema({
-    sub_lmr_structure_title: {
+    title: {
         type: String,
         optional: true
+    },
+    strId: {
+        type: String
     },
     description: {
         type: String,

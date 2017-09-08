@@ -15,6 +15,12 @@ const returnCurrentBranch = (_id) => Branch.find({ _id }).fetch()[0];
 
 const getAllBranch = () => Branch.find({}).fetch();
 
+const filterByTitle = (structures, title) => {
+    return structures.filter(structure => {
+        return structure.title === title
+    });
+};
+
 
 Meteor.methods({
     'branch.getAll' () { return getAllBranch() },
@@ -97,27 +103,65 @@ Meteor.methods({
         }
         try {
             lmrStructureUnits.validate(unitStructure)
-                // BranchSchema.lmr_structure_units.validate(unitStructure)
         } catch (e) {
             return { error: e }
         }
         Branch.update({ _id: branchId }, { $push: { lmr_structure_units: unitStructure } })
     },
-    "branch.getStructureById" (title) {
+    "branch.getStructureById" (_id, title) {
+        function transform(doc) {
+            return doc.lmr_structure_units
+         }
+
         try {
             new SimpleSchema({
                 title: {
                     type: String
+                },
+                _id: {
+                    type: String
                 }
-            }).validate({ title })
+            }).validate({ title, _id });
         } catch (e) {
             throw new Meteor.Error(e)
         };
 
-        // return Branch.find({ "lmr_structure_units.sub_lmr_structure_title": title }).fetch()
-        return Branch.find({ _id: "23er544" }, { lmr_structure_units: { $elemMatch: { sub_lmr_structure_title: "Управлінна господарством" } } }
+       return Promise.resolve(Branch.find({_id}, {fields: {lmr_structure_units: 1} }).map(transform)[0])
+            .then((response) => filterByTitle(response, title));
+    },
+    "branch.updateStrucutre"(_id, strId, updates) {
+        if(!this.userId) {
+            throw new Meteor.Erro("You dont have premission to do that")
+        }
+        try {
+            new SimpleSchema({
+                _id: {
+                    type: String
+                },
+                description: {
+                    type: String,
+                    optional: true
+                },
+                title: {
+                    type: String,
+                    optional: true
+                }
+            }).validate({_id, ...updates});
+            
+        } catch(e) {
+            throw new Meteor.Error(e)
+        }
 
-        ).fetch()
+        Branch.update(
+            {_id, "lmr_structure_units.strId": strId},
+            {$set: 
+                {
+                    "lmr_structure_units.$.title": updates.title,
+                    "lmr_structure_units.$.description" : updates.description
+                }
+            }
+        )
     }
 });
+                
 // {"lmr_structure_units.$": 1}

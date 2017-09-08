@@ -14,7 +14,8 @@ const methods = () => {
         addBranch: Meteor.server.method_handlers['branch.insert'],
         addStructure: Meteor.server.method_handlers['branch.addUnitStructure'],
         getStructureByTitle: Meteor.server.method_handlers['branch.getStructureById'],
-        resetDb: Meteor.server.method_handlers['branch.reset']
+        resetDb: Meteor.server.method_handlers['branch.reset'],
+        updateStrucutre: Meteor.server.method_handlers['branch.updateStrucutre']
     }
 };
 const m = methods();
@@ -26,7 +27,8 @@ if (Meteor.isServer) {
             order: 1,
             _id: '4r4322',
             lmr_structure_units: [{
-                sub_lmr_structure_title: "Sub title",
+                title: "Sub title",
+                strId: "asd",
                 description: "Description",
                 a_part_of: ["a part of id"],
                 medium_upper_structure: ["medium_upper_structure"],
@@ -39,48 +41,42 @@ if (Meteor.isServer) {
             order: 2,
             _id: 'h6hd433',
             lmr_structure_units: [{
-                    sub_lmr_structure_title: "Sub title",
-                    description: "Description",
-                    a_part_of: ["a part of id"],
-                    medium_upper_structure: ["medium_upper_structure"],
-                    hight_upper_structure: ["hight_upper_structure"],
-                    employees: [{}]
-                },
-                {
-                    sub_lmr_structure_title: "Sub title",
-                    description: "Description",
-                    a_part_of: ["a part of id"],
-                    medium_upper_structure: ["medium_upper_structure"],
-                    hight_upper_structure: ["hight_upper_structure"],
-                    employees: [{}]
-                }
-            ]
+                title: "Sub title",
+                strId: "43fq",
+                description: "Description",
+                a_part_of: ["a part of id"],
+                medium_upper_structure: ["medium_upper_structure"],
+                hight_upper_structure: ["hight_upper_structure"],
+                employees: [{}]
+            }]
         };
         let branch3 = {
             title: "Управління",
             order: 3,
             _id: '23er544',
             lmr_structure_units: [{
-                    sub_lmr_structure_title: "Управлінна господарством",
-                    description: "Description",
-                    a_part_of: ["a part of id"],
-                    medium_upper_structure: ["medium_upper_structure"],
-                    hight_upper_structure: ["hight_upper_structure"],
-                    employees: [{}]
-                },
-                {
-                    sub_lmr_structure_title: "Sub title",
-                    description: "Description",
-                    a_part_of: ["a part of id"],
-                    medium_upper_structure: ["medium_upper_structure"],
-                    hight_upper_structure: ["hight_upper_structure"],
-                    employees: [{}]
-                }
-            ]
+                title: "Управлінна господарством",
+                strId: "dasdq",
+                description: "Description sad",
+                a_part_of: ["a part of id"],
+                medium_upper_structure: ["medium_upper_structure"],
+                hight_upper_structure: ["hight_upper_structure"],
+                employees: [{}]
+            },
+            {
+                title: "Уasdрством",
+                strId: "1a3sd",
+                description: "Description",
+                a_part_of: ["a part of id"],
+                medium_upper_structure: ["medium_upper_structure"],
+                hight_upper_structure: ["hight_upper_structure"],
+                employees: [{}]
+            }]
         };
 
         let newStrData = {
-            sub_lmr_structure_title: "SUB",
+            title: "SUB",
+            strId: "afshy65",
             description: "DESC",
             a_part_of: ["a part of id"],
             medium_upper_structure: ["medium_upper_structure"],
@@ -107,7 +103,7 @@ if (Meteor.isServer) {
         afterEach(function(done) {
             Promise.resolve(m.resetDb()).then(() => done());
         });
-        describe("CREATE Structure", () => {
+        describe("CREATE ", () => {
             it('should return greater length of structure units then before', function(done) {
 
                 Promise.resolve(m.addStructure.apply({ userId }, [branch3._id, newStrData]))
@@ -125,14 +121,77 @@ if (Meteor.isServer) {
                     .then(() => done())
             });
         });
-        describe("GET Structure", () => {
+        describe("GET ", () => {
             it('should return structure by ID', () => {
-                let title = branch3.lmr_structure_units[0].sub_lmr_structure_title;
-                console.log(title);
-                Promise.resolve(m.getStructureByTitle(title))
-                    .then(result => console.log(result))
-            })
+                let title = branch3.lmr_structure_units[0].title;
+
+                Promise.resolve(m.getStructureByTitle(branch3._id, title))
+                    // .then(result => console.log(result))
+                    .then(() => done())
+            });
+
+            it('should return all Structures in collection', () => {
+
+            });
+        });
+        describe("UPDATE", () => {
+
+            it('should update structure title', (done) => {
+                let {strId} = branch3.lmr_structure_units[0];
+                let {_id} = branch3;
+                let updates = {title: "Updated title"};
+
+                Promise.resolve( m.updateStrucutre.apply({userId},[_id, strId, updates]))
+                .then(() => m.getAll())
+                .then(result => result.reduce(reducer, []).filter(x => x.strId === strId) )
+                .then(res => expect(res[0].title).toBe(updates.title))
+                .then(() => done())
+               
+            });
+            it('should update description in structure', (done) => {
+                let {strId} = branch3.lmr_structure_units[0];
+                let {_id} = branch3;
+                let updates = {
+                    title: branch3.title,
+                    description: "Some new description"
+                };
+                
+                Promise.resolve( m.updateStrucutre.apply({userId},[_id, strId, updates]))
+                .then(() => m.getAll())
+                .then(result => result.reduce(reducer, []).filter(x => x.strId === strId) )
+                .then(res => expect(res[0].description).toBe(updates.description))
+                .then(() => done())
+
+            });
+            it('should not update any fields', (done) => {
+                let {strId} = branch3.lmr_structure_units[0];
+                let {_id} = branch3;
+                let updates = {
+                    title: branch3.title,
+                    description: "Some new description"
+                };
+
+                Promise.resolve(
+                    expect(() => {
+                        return m.updateStrucutre.apply(null, [_id, strId, updates]);
+                    }).toThrow() 
+                ).then(() => done())
+                
+            });
+
+            describe("DELETE ", () => {
+                it("should delete structure")
+                it("should not delete structure")
+            });
+
         })
 
     })
+}
+
+function reducer(acumulator, branch) {
+    branch.lmr_structure_units.forEach((obj) => {
+        acumulator.push(obj)
+    });
+    return acumulator
 }
