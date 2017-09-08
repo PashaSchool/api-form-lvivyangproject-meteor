@@ -15,7 +15,8 @@ const methods = () => {
         addStructure: Meteor.server.method_handlers['branch.addUnitStructure'],
         getStructureByTitle: Meteor.server.method_handlers['branch.getStructureById'],
         resetDb: Meteor.server.method_handlers['branch.reset'],
-        updateStrucutre: Meteor.server.method_handlers['branch.updateStrucutre']
+        updateStrucutre: Meteor.server.method_handlers['branch.updateStrucutre'],
+        deleteStructure: Meteor.server.method_handlers['branch.deleteStructure']
     }
 };
 const m = methods();
@@ -180,8 +181,21 @@ if (Meteor.isServer) {
             });
 
             describe("DELETE ", () => {
-                it("should delete structure")
-                it("should not delete structure")
+                let deletedStructure = branch3.lmr_structure_units[1]; 
+                it("should delete structure", (done) => {
+                    Promise.resolve(m.deleteStructure.apply({userId},[branch3._id, "1a3sd"]))
+                        .then(() => m.getAll())
+                        .then(res => res.reduce(reducer, []))
+                        .then(res => expect(res).toExclude(deletedStructure))
+                        .then(() => done());
+                });
+                it("should not delete structure", () => {
+                    Promise.resolve(
+                            expect(() => {
+                                m.deleteStructure.apply({}, [branch3._id, "1a3sd"])
+                            }).toThrow()
+                        ).then(() => done());
+                })
             });
 
         })

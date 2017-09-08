@@ -40,7 +40,6 @@ Meteor.methods({
         try {
             BranchSchema.validate(branch)
         } catch (e) {
-
             return { error: new Meteor.Error(e.message) }
         }
         return Branch.insert(branch)
@@ -112,7 +111,6 @@ Meteor.methods({
         function transform(doc) {
             return doc.lmr_structure_units
          }
-
         try {
             new SimpleSchema({
                 title: {
@@ -161,6 +159,25 @@ Meteor.methods({
                 }
             }
         )
+    },
+    "branch.deleteStructure"(branchId, structureID) {
+        if(!this.userId) {
+            throw new Meteor.Erro('You dont have premision to do that')
+        }
+        try {
+            new SimpleSchema({
+                branchId: {
+                    type: String
+                },
+                structureID: {
+                    type: String
+                }
+            }).validate({structureID, branchId})
+        } catch(e){
+            throw new Meteor.Error(e)
+        }
+
+        Branch.update({_id: branchId}, {$pull: {"lmr_structure_units": {strId: structureID}}});
     }
 });
                 
