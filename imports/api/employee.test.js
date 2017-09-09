@@ -50,7 +50,7 @@ if(Meteor.isServer) {
         });
 
         afterEach((done) => {
-            Promise.resolve(Meteor.server.method_handlers['employee.reset']() ).then(() => done()) 
+            Promise.resolve(Meteor.server.method_handlers['employee.reset'].call({userId}) ).then(() => done()) 
         })
 
         describe('GET', () => {

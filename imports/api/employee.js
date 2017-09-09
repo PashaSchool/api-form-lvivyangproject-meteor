@@ -25,6 +25,9 @@ Meteor.methods({
         return  Employee.find({_id}).fetch()[0]
     },
     'employee.reset'() {
+        if(!this.userId) {
+            throw new Meteor.Error('You dont have premission to do that')
+        }
         Employee.remove({});
     },
     'employee.insert'(employee) {
