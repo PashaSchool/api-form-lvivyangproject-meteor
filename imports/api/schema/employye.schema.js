@@ -8,6 +8,10 @@ export const EmployyeSchema = new SimpleSchema({
     surname: {
         type: String
     },
+    _id: {
+        type: String,
+        optional: true
+    },
     thirdname: {
         type: String
     },
