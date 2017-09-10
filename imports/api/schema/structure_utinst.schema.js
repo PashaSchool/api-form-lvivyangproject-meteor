@@ -22,6 +22,6 @@ export const lmrStructureUnits = new SimpleSchema({
         type: [String]
     },
     employees: {
-        type: [Object]
+        type: [String]
     }
 });

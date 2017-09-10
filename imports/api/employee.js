@@ -13,7 +13,7 @@ const isValid = () => { throw new Meteor.Error("validation error", "all data sho
 
 Meteor.methods({
     'employee.getAll'()  {
-        return Employee.find({}).fetch()
+        return Promise.resolve(Employee.find({}).fetch()).then(data => data)
     },
     'employee.getById'(_id) {
         try {

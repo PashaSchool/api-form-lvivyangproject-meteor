@@ -2,6 +2,8 @@ import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
+//collecton employee
+import {Employee} from './employee'
 
 //schema
 import { BranchSchema } from './schema/branch.schema.js'
@@ -11,15 +13,16 @@ import { lmrStructureUnits } from './schema/structure_utinst.schema.js';
 export const Branch = new Mongo.Collection('branch');
 
 
-const returnCurrentBranch = (_id) => Branch.find({ _id }).fetch()[0];
+const returnCurrentBranch = (_id) => Promise.resolve(Branch.find({ _id }).fetch()[0]).then(branch => branch);
 
-const getAllBranch = () => Branch.find({}).fetch();
+const getAllBranch = () => Promise.resolve(Branch.find({}).fetch()).then(branches => branches)
 
 const filterByTitle = (structures, title) => {
     return structures.filter(structure => {
         return structure.title === title
     });
 };
+
 
 
 Meteor.methods({
@@ -110,7 +113,7 @@ Meteor.methods({
     "branch.getStructureById" (_id, title) {
         function transform(doc) {
             return doc.lmr_structure_units
-         }
+        }
         try {
             new SimpleSchema({
                 title: {
@@ -124,7 +127,9 @@ Meteor.methods({
             throw new Meteor.Error(e)
         };
 
-       return Promise.resolve(Branch.find({_id}, {fields: {lmr_structure_units: 1} }).map(transform)[0])
+       return Promise.resolve(
+           Branch.find({_id}, {fields: {lmr_structure_units: 1} })
+            .map(transform)[0])
             .then((response) => filterByTitle(response, title));
     },
     "branch.updateStrucutre"(_id, strId, updates) {
@@ -178,7 +183,76 @@ Meteor.methods({
         }
 
         Branch.update({_id: branchId}, {$pull: {"lmr_structure_units": {strId: structureID}}});
+    },
+    'branch.showStructuresWithEmployee'(){
+        return Promise.resolve(Branch.find({}).fetch())
+        .then(newArray => {
+            let res = newArray.reduce(reducer, []);
+            return res;
+        })
+        .then(arr => arr)
+    },
+    'branch.getEmployee'(_id, title) {
+        // dont work well
+        // should not use this method
+
+        try {
+            new SimpleSchema({
+                title: {
+                    type: String
+                },
+                _id: {
+                    type: String
+                }
+            }).validate({ title, _id });
+        } catch (e) {
+            throw new Meteor.Error(e)
+        };
+
+       return Promise.resolve(
+           Branch.find({_id}, {fields: {lmr_structure_units: 1} })
+            .map(transform)[0])
+            .then((response) => filterByTitle(response, title));
     }
 });
-                
-// {"lmr_structure_units.$": 1}
+
+function reducer(acumulator, branch) {
+    acumulator.push({
+        ...branch,
+        lmr_structure_units: branch.lmr_structure_units.reduce(reducerStructure, [])
+    });
+    return acumulator
+}
+
+function closureId(_id) {
+    return function() {
+        return Meteor.call('employee.getById', _id)
+    }
+}
+
+
+function reducerStructure(array, structure) {
+    let result = structure.employees.map( _id => {
+        let foo = closureId(_id);
+        return foo();
+    });
+
+    array.push({
+        ...structure,
+        employees: result
+    });
+
+    return array
+}
+
+function formate(obj) {
+    return JSON.stringify(obj, null, 2)
+}
+
+// function mapBranch(branch) {
+//     branch.forEach(str => {
+//         str.lmr_structure_units.reduce(reduceStr, [])
+//     })
+// }
+
+// function reduceStr(acumulator, )

@@ -34,7 +34,7 @@ if (Meteor.isServer) {
                 a_part_of: ["a part of id"],
                 medium_upper_structure: ["medium_upper_structure"],
                 hight_upper_structure: ["hight_upper_structure"],
-                employees: [{}]
+                employees: ["asdasd"]
             }]
         };
         let branch2 = {
@@ -48,7 +48,7 @@ if (Meteor.isServer) {
                 a_part_of: ["a part of id"],
                 medium_upper_structure: ["medium_upper_structure"],
                 hight_upper_structure: ["hight_upper_structure"],
-                employees: [{}]
+                employees: ["asdasd"]
             }]
         };
         let branch3 = {
@@ -62,7 +62,7 @@ if (Meteor.isServer) {
                 a_part_of: ["a part of id"],
                 medium_upper_structure: ["medium_upper_structure"],
                 hight_upper_structure: ["hight_upper_structure"],
-                employees: [{}]
+                employees: ["asdasd"]
             },
             {
                 title: "Уasdрством",
@@ -71,7 +71,7 @@ if (Meteor.isServer) {
                 a_part_of: ["a part of id"],
                 medium_upper_structure: ["medium_upper_structure"],
                 hight_upper_structure: ["hight_upper_structure"],
-                employees: [{}]
+                employees: ["asdasd"]
             }]
         };
 
@@ -82,7 +82,7 @@ if (Meteor.isServer) {
             a_part_of: ["a part of id"],
             medium_upper_structure: ["medium_upper_structure"],
             hight_upper_structure: ["hight_upper_structure"],
-            employees: [{}]
+            employees: ["asdasd"]
         };
 
         let userId = '123';
@@ -98,7 +98,7 @@ if (Meteor.isServer) {
                 .then(() => m.getAll())
                 .then(branches => branches.reduce(reduceStructure, []))
                 .then(reducedData => lengthOfStructureUnits = reducedData.length)
-                .then(() => done());
+                .then(() => done())
         });
 
         afterEach(function(done) {
