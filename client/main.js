@@ -9,7 +9,8 @@ import App from '../imports/ui/App'
 
 
 Meteor.startup(() => {
-	render(<App/>, document.getElementById('root'))
+	console.log("Meteor.userId", Meteor.userId);
+	render(<App/>, document.getElementById('root'));
 });
 
 

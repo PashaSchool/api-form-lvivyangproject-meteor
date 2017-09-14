@@ -2,18 +2,19 @@
   "name": "apiREST_for_lmr",
   "private": true,
   "scripts": {
-    "start": "meteor run & 'npm run eslint:watch'",
+    "start": "meteor run",
     "rest:project": "rm -rf .meteor/local && meteor reset",
     "test": "meteor test --driver-package=practicalmeteor:mocha --port 8080",
     "addpack": "meteor add fourseven:scss",
-    "eslint:watch": "esw ./imports/ui/*.js --cache --watch"
+    "eslint:watch": "esw ./imports/ui/*.js --cache --watch --fix"
   },
   "engines": {
     "node": "4.8.4"
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "babel-runtime": "^6.20.0",
+    "babel-runtime": "^6.26.0",
+    "bcrypt": "^1.0.3",
     "material-ui": "^1.0.0-beta.10",
     "meteor-node-stubs": "~0.2.4",
     "prop-types": "^15.5.10",
