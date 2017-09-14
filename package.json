@@ -3,19 +3,22 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
-    "rest:project" : "rm -rf .meteor/local && meteor reset",
-    "test" : "meteor test --driver-package=practicalmeteor:mocha --port 8080",
-    "instal:react":"meteor npm install ract react-dom"
+    "rest:project": "rm -rf .meteor/local && meteor reset",
+    "test": "meteor test --driver-package=practicalmeteor:mocha --port 8080",
+    "addpack": "meteor npm install react react-dom --save"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "babel-runtime": "^6.20.0",
-    "meteor-node-stubs": "~0.2.4"
+    "material-ui": "next",
+    "meteor-node-stubs": "~0.2.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   },
   "devDependencies": {
     "expect": "^1.20.2"
   },
-  "engines" : {
-    "node" : "4.8.4"
+  "engines": {
+    "node": "4.8.4"
   }
 }

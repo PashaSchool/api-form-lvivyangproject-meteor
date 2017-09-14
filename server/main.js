@@ -2,6 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Branch } from '../imports/api/branch.js'
 import { Restivus } from 'meteor/nimble:restivus'
 
+import '../imports/api/branch'
+import '../imports/api/employee'
+
 if (Meteor.isServer) {
     const API = new Restivus({
         useDefaultAuth: false,
