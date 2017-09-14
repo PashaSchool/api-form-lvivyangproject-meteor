@@ -25,12 +25,12 @@ Meteor.startup(() => {
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
-				'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+				'Access-Control-Allow-Methods': 'GET',
 				'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
 			}
 		};
 		
-		axios.post(API_URL + '/api/branches/addNewBranch', config)
+		axios.get(API_URL + '/api/branches/addNewBranch', config)
 		.then(res => console.log('the response is', res))
 		.catch((error) => console.log('the error is in', error))
 		

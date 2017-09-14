@@ -2,8 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Branch } from '../imports/api/branch.js'
 import { Restivus } from 'meteor/nimble:restivus'
 
-
-
 if (Meteor.isServer) {
     const API = new Restivus({
         useDefaultAuth: false,
@@ -12,7 +10,7 @@ if (Meteor.isServer) {
         defaultHeaders: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Methods': 'GET',
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
         }
     });
@@ -28,7 +26,7 @@ if (Meteor.isServer) {
                         headers: {
                             'Content-Type': 'application/json',
                             'Access-Control-Allow-Origin': '*',
-                            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                            'Access-Control-Allow-Methods': 'GET',
                             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Z-Key',
                         }
                     }

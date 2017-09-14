@@ -4,7 +4,8 @@
   "scripts": {
     "start": "meteor run",
     "rest:project" : "rm -rf .meteor/local && meteor reset",
-    "test" : "meteor test --driver-package=practicalmeteor:mocha --port 8080"
+    "test" : "meteor test --driver-package=practicalmeteor:mocha --port 8080",
+    "instal:react":"meteor npm install ract react-dom"
   },
   "dependencies": {
     "axios": "^0.16.2",
