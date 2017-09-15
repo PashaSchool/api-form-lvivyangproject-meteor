@@ -9,7 +9,8 @@ import App from '../imports/ui/App'
 
 
 Meteor.startup(() => {
-	console.log("Meteor.userId", Meteor.userId);
+	const isAuthenticated = !!Meteor.userId();
+	console.log("Meteor.userId", Meteor.userId());
 	render(<App/>, document.getElementById('root'));
 });
 

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Branch } from '../imports/api/branch.js'
 import { Restivus } from 'meteor/nimble:restivus'
 
+import '../imports/api/user'
 import '../imports/api/branch'
 import '../imports/api/employee'
 
@@ -46,4 +47,3 @@ if (Meteor.isServer) {
         }
     }); // update and delete some branches
 };
-

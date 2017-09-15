@@ -6,7 +6,8 @@
     "rest:project": "rm -rf .meteor/local && meteor reset",
     "test": "meteor test --driver-package=practicalmeteor:mocha --port 8080",
     "addpack": "meteor add fourseven:scss",
-    "eslint:watch": "esw ./imports/ui/*.js --cache --watch --fix"
+    "eslint:watch": "esw ./imports/ui/*.js --cache --watch --fix",
+    "db" : "meteor mongo"
   },
   "engines": {
     "node": "4.8.4"
