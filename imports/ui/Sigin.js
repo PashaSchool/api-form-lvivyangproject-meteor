@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Accounts } from 'meteor/accounts-base'
+// import { Accounts } from 'meteor/accounts-base'
 // components
 import Button from 'material-ui/Button';
 import Input from 'material-ui/Input';
@@ -39,7 +39,9 @@ const styles = theme => ({
   },
 
 });
+// betteor to create class to provide state for input handleling
 
+// Accounts.createUser({},)
 const Signin = (props) => {
   const { classes } = props;
   return (
