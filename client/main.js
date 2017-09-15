@@ -6,14 +6,16 @@ import {render} from 'react-dom'
 
 //components
 import App from '../imports/ui/App'
-
+import Routes from '../imports/routes'
 
 Meteor.startup(() => {
-	const isAuthenticated = !!Meteor.userId();
-	console.log("Meteor.userId", Meteor.userId());
-	render(<App/>, document.getElementById('root'));
+	Tracker.autorun(() => {
+		console.log("Meteor.userId", Meteor.userId());
+		console.log("Data is tracked")
+		const isAuthenticated = !!Meteor.userId();
+		render(<Routes isAuth={isAuthenticated} />, document.getElementById('root'));
+	});
 });
-
 
 
 // import axios from 'axios'
