@@ -13,7 +13,7 @@ import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
   card: {
-    maxWidth: 350,
+    width: 350,
   },
   bullet: {
     display: 'inline-block',
