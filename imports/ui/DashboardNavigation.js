@@ -31,7 +31,7 @@ const DashboardNavigation = (props) => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography type="title" color="inherit" className={classes.flex}>
-                        <NavLink activeClassName="selected"  to="/devloyaut">HOME</NavLink >
+                        <NavLink exact activeClassName="selected"  to="/devloyaut">HOME</NavLink >
                     </Typography>
                     <Typography type="title" color="inherit" className={classes.flex}>
                         <NavLink activeClassName="selected" to="/devloyaut/doc">DOC</NavLink >
