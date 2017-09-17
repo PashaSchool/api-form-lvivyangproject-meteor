@@ -5,7 +5,6 @@ import React from 'react'
 import {render} from 'react-dom'
 
 //components
-import App from '../imports/ui/App'
 import Routes from '../imports/routes'
 
 Meteor.startup(() => {

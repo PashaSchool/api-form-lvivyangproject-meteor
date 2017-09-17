@@ -1,12 +1,17 @@
 import React, {Component} from 'react'
-import {Accounts} from 'meteor/accounts-base'
 
-class Dashboard extends Component {
-    render() {
-        return (
-            <p onClick={() => Accounts.logout()}>Dashboard</p>
-        )
-    }
+import {DashboardRoutes} from '../routes'
+import DashboardNavigation from './DashboardNavigation'
+
+const Dashboard = (props) => {
+    return (
+        <div>
+            <DashboardNavigation/>
+            <section>
+               <DashboardRoutes {...props}/>
+            </section>
+        </div>
+    )
 }
 
 export default Dashboard

@@ -3,3 +3,8 @@
 
 @import "./components/_form.scss";
 @import "./_layouts.scss";
+
+.selected {
+    font-weight: bold;
+    color: red
+}
