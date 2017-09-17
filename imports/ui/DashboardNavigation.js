@@ -10,10 +10,12 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 
+import { blue } from 'material-ui/colors';
+
 const styles = theme => ({
     root: {
-        marginTop: theme.spacing.unit * 3,
-        width: '100%'
+        width: '100%',
+        backgroundColor: blue[500]
     },
     flex: {
         marginRight: 30
@@ -22,24 +24,28 @@ const styles = theme => ({
         marginLeft: -12,
         marginRight: 20
     }
-})
+});
 
 const DashboardNavigation = (props) => {
     const {classes} = props;
     return (
         <header>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography type="title" color="inherit" className={classes.flex}>
-                        <NavLink exact activeClassName="selected"  to="/devloyaut">HOME</NavLink >
-                    </Typography>
-                    <Typography type="title" color="inherit" className={classes.flex}>
-                        <NavLink activeClassName="selected" to="/devloyaut/doc">DOC</NavLink >
-                    </Typography>
-                    <Typography type="title" color="inherit" className={classes.flex}>
-                        <NavLink activeClassName="selected" to="/devloyaut/api">API</NavLink >
-                    </Typography>
-                    <Button onClick={() => Accounts.logout()} color="contrast">Logout</Button>
+            <AppBar position="static" className={classes.root}>
+                <Toolbar className="navigation">
+                    <div className='navigation__list'>
+                        <Typography type="title" color="inherit" className={classes.flex}>
+                            <NavLink exact activeClassName="selected"  to="/devloyaut">HOME</NavLink >
+                        </Typography>
+                        <Typography type="title" color="inherit" className={classes.flex}>
+                            <NavLink activeClassName="selected" to="/devloyaut/doc">DOC</NavLink >
+                        </Typography>
+                        <Typography type="title" color="inherit" className={classes.flex}>
+                            <NavLink activeClassName="selected" to="/devloyaut/api">API</NavLink >
+                        </Typography>
+                    </div>
+                    <div>
+                        <Button onClick={() => Accounts.logout()} color="contrast">Logout</Button>
+                    </div>
                 </Toolbar>
             </AppBar>
         </header>

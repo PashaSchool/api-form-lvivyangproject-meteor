@@ -1,0 +1,14 @@
+.selected {
+    font-weight: bold;
+    color: $active_link;
+}
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__list {
+        display: flex;
+        align-items: center;
+    }
+}
