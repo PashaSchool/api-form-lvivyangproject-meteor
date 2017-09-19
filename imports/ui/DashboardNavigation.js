@@ -1,5 +1,4 @@
 import React from 'react'
-import {Accounts} from 'meteor/accounts-base'
 import {NavLink } from 'react-router-dom'
 //hoc
 import {withStyles} from 'material-ui/styles';
@@ -10,7 +9,11 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 
+import {connect} from 'react-redux';
+//action
 import { blue } from 'material-ui/colors';
+import {logout} from '../actions';
+
 
 const styles = theme => ({
     root: {
@@ -26,8 +29,7 @@ const styles = theme => ({
     }
 });
 
-const DashboardNavigation = (props) => {
-    const {classes} = props;
+const DashboardNavigation = ({classes, logout}) => {
     return (
         <header>
             <AppBar position="static" className={classes.root}>
@@ -37,19 +39,34 @@ const DashboardNavigation = (props) => {
                             <NavLink exact activeClassName="selected"  to="/devloyaut">HOME</NavLink >
                         </Typography>
                         <Typography type="title" color="inherit" className={classes.flex}>
-                            <NavLink activeClassName="selected" to="/devloyaut/doc">DOC</NavLink >
+                            <NavLink exact activeClassName="selected" to="/devloyaut/doc">DOC</NavLink >
                         </Typography>
                         <Typography type="title" color="inherit" className={classes.flex}>
                             <NavLink activeClassName="selected" to="/devloyaut/api">API</NavLink >
                         </Typography>
                     </div>
                     <div>
-                        <Button onClick={() => Accounts.logout()} color="contrast">Logout</Button>
+                        <Button onClick={() => logout()} color="contrast">Logout</Button>
                     </div>
+
                 </Toolbar>
             </AppBar>
         </header>
     )
 };
 
-export default withStyles(styles)(DashboardNavigation)
+const mapStateToProps = (state) => {
+    return {
+        email: state.email
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => {
+            dispatch(logout());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(DashboardNavigation))

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Accounts } from 'meteor/accounts-base';
+
 // components
 import Button from 'material-ui/Button';
 import Input from 'material-ui/Input';
@@ -9,6 +9,11 @@ import Typography from 'material-ui/Typography';
 import {Link} from 'react-router-dom'
 
 import { withStyles } from 'material-ui/styles';
+
+//actions
+import {createUser} from '../actions'
+//redux
+import {connect} from 'react-redux'
 
 const styles = theme => ({
   card: {
@@ -64,16 +69,7 @@ class Signin extends Component {
       return this.setState({ error: 'All fields is required' });
     }
 
-    return Accounts.createUser({
-      email,
-      password,
-    }, (err) => {
-      if (err) {
-        this.setState({ error: err.reason });
-      } else {
-        this.setState({ error: '' });
-      }
-    });
+    this.props.createUser(email, password);
   }
   render() {
     const { error } = this.state;
@@ -125,4 +121,13 @@ Signin.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Signin);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createUser: (email, password) => {
+      dispatch(createUser(email, password))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Signin))

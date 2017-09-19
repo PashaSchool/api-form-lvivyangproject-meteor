@@ -7,12 +7,25 @@ import {render} from 'react-dom'
 //components
 import Routes from '../imports/routes'
 
+//redux
+import {Provider} from 'react-redux'
+import {createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk';
+
+import reducer from '../imports/reducer'
+
+const store = createStore(reducer, applyMiddleware(thunk));
+
 Meteor.startup(() => {
 	Tracker.autorun(() => {
-		console.log("Meteor.userId", Meteor.userId());
-		console.log("Data is tracked")
+		// console.log("Meteor.userId", Meteor.userId());
+		// console.log("Data is tracked")
 		const isAuthenticated = !!Meteor.userId();
-		render(<Routes isAuth={isAuthenticated} />, document.getElementById('root'));
+		render(
+			<Provider store={store}>
+				<Routes isAuth={isAuthenticated} />
+			</Provider>,
+		 document.getElementById('root'));
 	});
 });
 
