@@ -8,6 +8,10 @@ import Input from 'material-ui/Input';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+//action
+import {loginWithPassword}  from '../actions'
+
 
 import { withStyles } from 'material-ui/styles';
 
@@ -65,22 +69,8 @@ class Login extends Component {
       return this.setState({ error: 'All fields is required' });
     }
 
-    Meteor.loginWithPassword({ email }, password, (err) => {
-      if (err) {
-        this.setState({ error: err.reason });
-      }
-    });
+    this.props.loginWithPassword(email, password);
 
-    // return Accounts.createUser({
-    //   email,
-    //   password,
-    // }, (err) => {
-    //   if (err) {
-    //     this.setState({ error: err.reason });
-    //   } else {
-    //     this.setState({ error: '' });
-    //   }
-    // });
   }
   render() {
     const { error } = this.state;
@@ -132,4 +122,17 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+function mapDispatchToProps(dispatch) {
+  return {
+    loginWithPassword: (email, password) => {
+      dispatch(loginWithPassword(email, password))
+    }
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    err: state.err
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));

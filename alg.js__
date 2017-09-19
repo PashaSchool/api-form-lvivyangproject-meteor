@@ -1,0 +1,197 @@
+let arr = [4,7,3,0,65,32,6,3, 9];
+
+function margeSort(arr) {
+	if(arr.length < 2) {
+		return arr
+	}
+
+	let step = 1;
+	let left, right;
+
+	while(step < arr.length) {
+		left = 0;
+		right = step;
+
+		while(right + step <= arr.length) {
+			margeArrays(arr, left, left + step, right, right + step);
+			left = right + step;
+			right = left + step;
+		}
+
+		if(right < arr.length) {
+			margeArrays(arr, left, left + step, right, arr.length);
+		}
+		step *= 2;
+	}
+}
+
+function margeArrays(arr, startLeft, stopLeft, startRight, stopRight) {
+	var rightArr = new Array(stopRight - startRight + 1);
+	var leftArr = new Array(stopLeft - startLeft + 1);
+
+	k = startRight;
+	for(var i = 0; i < (rightArr.length - 1); ++i) {
+		rightArr[i] = arr[k];
+		++k
+	};
+
+	k = startLeft;
+	for(var j = 0; j < (leftArr.length - 1); ++j) {
+		leftArr[j] = arr[k];
+		++k
+	};
+
+	rightArr[rightArr.length - 1] = Infinity;
+	leftArr[leftArr.length - 1] = Infinity;
+
+	var m = 0;
+	var n = 0;
+
+	for(var k = startLeft; k < stopRight; ++k) {
+		if(leftArr[m] <= rightArr[n]) {
+			arr[k] = leftArr[m];
+			m++;
+		} else {
+			arr[k] = rightArr[n];
+			n++
+		}
+	}
+}
+
+console.log(arr);
+margeSort(arr)
+console.log(arr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function List() {
+//     this.listSize = 0;
+//     this.pos = 0;
+//     this.dataStore = []; 
+//     this.clear = clear;
+//     this.find = find;
+//     this.toString = toString;
+//     this.insert = insert;
+//     this.append = append;
+//     this.remove = remove;
+//     this.front = front;
+//     this.end = end;
+//     this.prev = prev;
+//     this.next = next;
+//     this.currPos = currPos;
+//     this.moveTo = moveTo;
+//     this.getElement = getElement;
+//     this.lendth = lendth;
+//     this.contains = contains;
+// }
+
+// function clear() {
+//     delete this.dataStore;
+//     this.dataStore = [];
+//     this.listSize = this.pos = 0
+// }
+// function toString() {
+//     return this
+//         .dataStore
+//         .join(" ")
+// }
+// function append(elem) {
+//     this.dataStore[this.listSize++] = elem
+// };
+
+// function find(elem) {
+//     for (var i = 0; i > this.dataStore; i++) {
+//         if (this.dataStore[i] === elem) {
+//             return i
+//         }
+//     }
+//     return -1
+// }
+
+// function remove(elem) {
+//     var foundedElm = this.find(elem);
+//     if (foundedElm > -1) {
+//         this
+//             .dataStore
+//             .splice(foundedElm, 1);
+//         this.listSize--;
+//         return true
+//     }
+//     return false
+// }
+
+// function lendth() {
+//     return this.listSize
+// }
+
+// function insert(elem, after) {
+//     var insertPos = this.find(after);
+//     if (insertPos > -1) {
+//         this
+//             .dataStore
+//             .splice(insertPos + 1, 0, elem);
+//         this.listSize++;
+//         return true
+//     }
+//     return false
+// }
+
+// function contains(elem) {
+//     let foundedElm = this.find(elem);
+//     if (foundedElm > -1) {
+//         return true
+//     }
+//     else false
+// }
+
+// function front() {
+//     return this.pos = 0;
+// }
+
+// function end() {
+//     this.pos = this.listSize - 1
+// }
+
+// function prev() {
+//     if(this.pos > 0) {
+//         --this.pos
+//     }
+// };
+
+// function next() {
+//     if(this.pos < this.listSize - 1) {
+//         ++this.pos;
+//     }
+// }
+
+// function currPos() {
+//     return this.pos;
+// }
+
+// function moveTo(position) {
+//     this.pos = position
+// }
+
+// function getElement() {
+//     return this.dataStore[this.pos]
+// }
+
+// var list = new List();
+
+// list.append("firstOne");
+
+// console.log(list)

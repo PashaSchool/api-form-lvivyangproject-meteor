@@ -10,6 +10,10 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 
+import {connect} from 'react-redux'
+//action
+import {logout} from '../actions'
+
 const styles = theme => ({
     root: {
         marginTop: theme.spacing.unit * 3,
@@ -24,8 +28,7 @@ const styles = theme => ({
     }
 })
 
-const DashboardNavigation = (props) => {
-    const {classes} = props;
+const DashboardNavigation = ({classes, logout}) => {
     return (
         <header>
             <AppBar position="static">
@@ -39,11 +42,25 @@ const DashboardNavigation = (props) => {
                     <Typography type="title" color="inherit" className={classes.flex}>
                         <NavLink activeClassName="selected" to="/devloyaut/api">API</NavLink >
                     </Typography>
-                    <Button onClick={() => Accounts.logout()} color="contrast">Logout</Button>
+                    <Button onClick={() => logout()} color="contrast">Logout</Button>
                 </Toolbar>
             </AppBar>
         </header>
     )
 };
 
-export default withStyles(styles)(DashboardNavigation)
+const mapStateToProps = (state) => {
+    return {
+        email: state.email
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => {
+            dispatch(logout());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(DashboardNavigation))
