@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
-export const NotFound = () => {
-    return (
-        <div>Looks like you have search somethink that is not here :C</div>
-    )
-}
+export const NotFound = () => (
+  <div>Looks like you have search somethink that is not here :C</div>
+);

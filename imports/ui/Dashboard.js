@@ -1,18 +1,16 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 
-import {DashboardRoutes} from '../routes'
-import DashboardNavigation from './DashboardNavigation'
+import { DashboardRoutes } from '../routes';
+import DashboardNavigation from './DashboardNavigation';
 
 
-const Dashboard = (props) => {
-    return (
-        <div>
-            <DashboardNavigation/>
-            <section>
-               <DashboardRoutes {...props}/>
-            </section>
-        </div>
-    )
-}
+const Dashboard = props => (
+  <div>
+    <DashboardNavigation />
+    <section>
+      <DashboardRoutes {...props} />
+    </section>
+  </div>
+);
 
-export default Dashboard
+export default Dashboard;

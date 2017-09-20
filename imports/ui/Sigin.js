@@ -6,14 +6,14 @@ import Button from 'material-ui/Button';
 import Input from 'material-ui/Input';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import { withStyles } from 'material-ui/styles';
 
-//actions
-import {createUser} from '../actions'
-//redux
-import {connect} from 'react-redux'
+// actions
+import { createUser } from '../actions';
+// redux
+import { connect } from 'react-redux';
 
 const styles = theme => ({
   card: {
@@ -108,7 +108,7 @@ class Signin extends Component {
             <Button raised color="primary" onClick={() => this.handleClick()}>Signin</Button>
           </CardActions>
           <Typography type="body2">
-            <Link to='/'>Habe alredy account ?</Link>
+            <Link to="/">Habe alredy account ?</Link>
           </Typography>
           {this.state.error !== '' ? isErrorMessageShowUp() : undefined}
         </Card>
@@ -122,12 +122,10 @@ Signin.propTypes = {
 };
 
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createUser: (email, password) => {
-      dispatch(createUser(email, password))
-    }
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  createUser: (email, password) => {
+    dispatch(createUser(email, password));
+  },
+});
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Signin))
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Signin));

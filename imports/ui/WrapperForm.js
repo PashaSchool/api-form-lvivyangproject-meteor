@@ -1,5 +1,6 @@
 import React, {component} from 'react'
 
+import ContainerForms from './ContainerForms'
 class WrapperForm extends Component {
     state = {
         addMode: true
@@ -7,14 +8,7 @@ class WrapperForm extends Component {
     render() {
         return (
             <section>
-                <div>
-                    <h3>Here iesome title</h3>
-                    <button onClick={() => this.setState({addMode: !this.state.addMode})}>switch</button>
-                </div>
-                <div>
-                    {!this.state.addMode && <dropDown selectItem={this.props.data}>}
-                    <TextFieldsForm fields/>
-                </div>
+                <ContainerForms/>
             </section>
         )
     }

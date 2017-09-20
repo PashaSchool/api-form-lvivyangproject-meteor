@@ -7,10 +7,10 @@ import Button from 'material-ui/Button';
 import Input from 'material-ui/Input';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import {Link} from 'react-router-dom'
-import {connect} from 'react-redux'
-//action
-import {loginWithPassword}  from '../actions'
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+// action
+import { loginWithPassword } from '../actions';
 
 
 import { withStyles } from 'material-ui/styles';
@@ -70,7 +70,6 @@ class Login extends Component {
     }
 
     this.props.loginWithPassword(email, password);
-
   }
   render() {
     const { error } = this.state;
@@ -109,7 +108,7 @@ class Login extends Component {
             <Button raised color="primary" onClick={() => this.handleClick()}>Login</Button>
           </CardActions>
           <Typography type="body2">
-            <Link to='/signin'>Create Account ?</Link>
+            <Link to="/signin">Create Account ?</Link>
           </Typography>
           {this.state.error !== '' ? isErrorMessageShowUp() : undefined}
         </Card>
@@ -125,14 +124,14 @@ Login.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     loginWithPassword: (email, password) => {
-      dispatch(loginWithPassword(email, password))
-    }
-  }
+      dispatch(loginWithPassword(email, password));
+    },
+  };
 }
 
 function mapStateToProps(state) {
   return {
-    err: state.err
-  }
+    err: state.err,
+  };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
