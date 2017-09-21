@@ -43,7 +43,7 @@ Meteor.methods({
         try {
             BranchSchema.validate(branch)
         } catch (e) {
-            return { error: new Meteor.Error(e.message) }
+            throw new Meteor.Error(e)
         }
         return Branch.insert(branch)
     },

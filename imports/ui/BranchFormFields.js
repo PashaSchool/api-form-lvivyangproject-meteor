@@ -2,13 +2,10 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 //components
-import FormButtonGroup from './FormButtonsGroup'
-
+import FormButtonGroup from './FormButtonsGroup';
 
 //actions
-import {addNewBranchAsync} from '../actions'
-// const initState = {     branchEditMode: false,     structureEditMode: false,
-//    employeeEditMode: false }
+import {addNewBranchAsync} from '../actions';
 
 class BranchFormFields extends Component {
     constructor(props) {
@@ -25,17 +22,26 @@ class BranchFormFields extends Component {
         })
     }
     handleAddBranch = (branch, addBranch) => {
-        if(branch.title.length > 0 && +branch.order > 0) {
-           return addBranch(branch)
+        if(branch.title.length > 0 && parseInt(branch.order) > 0) {
+            return addBranch(branch)
         } 
-        return 
+        return
     }
+    clearFieldsValue = (...inputs) => {
+        
+        inputs.filter(function(item){
+            return item.value !== '' && (item.type === 'text' || item.type === 'number')
+        }).map(function(item) {
+            return item.value = '';
+        })  
+    }
+    
     render() {
         const {title, order} = this.state;
         const {addBranch} = this.props;
-
-        const branch = {title, order};
-
+        const {titleNode, orderNode, handleAddBranch, clearFieldsValue} = this;
+        const branch = {title, order: parseInt(order) };
+        console.log("yyyyy")
         return (
             <div>
                 <div>
@@ -44,16 +50,16 @@ class BranchFormFields extends Component {
                         placeholder='title'
                         name='title'
                         onChange={this.handleChange}
-                        ref={node => this.title = node}/>
+                        ref={node => this.titleNode = node}/>
                     <input
                         type='number'
                         placeholder='order'
                         name='order'
                         onChange={this.handleChange}
-                        ref={node => this.order = node}/>
+                        ref={node => this.orderNode = node}/>
                 </div>
                 <div>
-                    <FormButtonGroup addItem={this.handleAddBranch(branch, addBranch)} showEditMode={this.props.branchEdit}/>
+                    <FormButtonGroup clearFields={() => clearFieldsValue(titleNode, orderNode)}  addItem={() => this.handleAddBranch(branch, addBranch)} showEditMode={this.props.branchEdit}/>
                 </div>
             </div>
         )

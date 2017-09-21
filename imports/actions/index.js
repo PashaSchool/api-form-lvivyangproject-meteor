@@ -2,10 +2,10 @@ import {Accounts} from 'meteor/accounts-base';
 import {Meteor} from 'meteor/meteor'
 //constant
 import {
-    SET_USER_DATA, 
-    HANDLE_ERROR, 
-    SWITCH_MODE_STRUCTURE, 
-    SWITCH_MODE_EMPLOYEE, 
+    SET_USER_DATA,
+    HANDLE_ERROR,
+    SWITCH_MODE_STRUCTURE,
+    SWITCH_MODE_EMPLOYEE,
     SWITCH_MODE_BRANCH,
     ADD_NEW_BRANCH
 } from '../constant'
@@ -56,7 +56,6 @@ export function logout() {
     }
 }
 
-
 /**
 |--------------------------------------------------
 | SWITCH EDITING MODE
@@ -80,19 +79,22 @@ export function employeeEditMode() {
 */
 
 function addNewBranch(branch) {
-    return {
-        type: ADD_NEW_BRANCH, 
-        payload: branch
-    }
+    return {type: ADD_NEW_BRANCH, payload: branch}
 }
 
 export function addNewBranchAsync(branch) {
     return (dispatch) => {
+
         Meteor.call('branch.insert', branch, (err, resp) => {
-            if(!err) {
-                return  dispatch(addNewBranch({_id: resp, ...branch}))
+            if (!err) {
+                dispatch(addNewBranch({
+                    _id: resp,
+                    ...branch
+                }));
+            } else {
+                dispatch(setError(err))
             }
-            return dispatch(setError(err))
-        })
+        });
+
     }
 }
