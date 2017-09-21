@@ -1,14 +1,12 @@
-import React, {component} from 'react'
+import React, {Component} from 'react'
 
-import ContainerForms from './ContainerForms'
+import FormContainerBranch from './FormContainerBranch'
+
 class WrapperForm extends Component {
-    state = {
-        addMode: true
-    }
     render() {
         return (
             <section>
-                <ContainerForms/>
+               <FormContainerBranch/>
             </section>
         )
     }

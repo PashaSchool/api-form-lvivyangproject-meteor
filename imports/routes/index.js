@@ -7,7 +7,7 @@ import Login from '../ui/Login'
 import Signin from '../ui/Sigin'
 import Dashboard from '../ui/Dashboard'
 
-import ContainerForms from '../ui/ContainerForms'
+import WrapperForm from '../ui/WrapperForm'
 
 import {NotFound} from '../ui/404'
 
@@ -50,7 +50,7 @@ const PrivateRouter = ({
 export const DashboardRoutes = ({match}) => {
     return (
         <Switch>
-            <Route exact path={`${match.url}`} component={ContainerForms}/>
+            <Route exact path={`${match.url}`} component={WrapperForm}/>
             <Route exact path={`${match.url}/doc`} component={Doc}/>
             <Route exact path={`${match.url}/api`} component={Api}/>
         </Switch>

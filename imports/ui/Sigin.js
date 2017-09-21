@@ -60,27 +60,28 @@ class Signin extends Component {
       [`${e.target.name}`]: e.target.value,
     });
   }
-  handleClick() {
-    const { email, password } = this.state;
+  handleSignIn(email, password, createUser ) {
+
     if (password.length < 8) {
       return this.setState({ error: 'Your password should have more then 8 characters' });
     }
     if (email === '' || password === '') {
       return this.setState({ error: 'All fields is required' });
     }
-
-    this.props.createUser(email, password);
+    createUser(email, password);
   }
   render() {
-    const { error } = this.state;
-    function isErrorMessageShowUp() {
+    const { error, email, password } = this.state;
+    const {createUser, classes} = this.props;
+
+    function isErrorMessageShowUp(erroe) {
       return (
         <Typography type="headline">
           Error — {error}
         </Typography>
       );
     }
-    const { classes } = this.props;
+
     return (
       <div className="form-intro-wrapper">
         <Card className={classes.card}>
@@ -105,12 +106,12 @@ class Signin extends Component {
             />
           </CardContent>
           <CardActions className={classes.center}>
-            <Button raised color="primary" onClick={() => this.handleClick()}>Signin</Button>
+            <Button raised color="primary" onClick={() => this.handleSignIn(email, password, createUser)}>Signin</Button>
           </CardActions>
           <Typography type="body2">
             <Link to="/">Habe alredy account ?</Link>
           </Typography>
-          {this.state.error !== '' ? isErrorMessageShowUp() : undefined}
+          {error !== '' ? isErrorMessageShowUp(error) : undefined}
         </Card>
       </div>
     );
@@ -119,6 +120,7 @@ class Signin extends Component {
 
 Signin.propTypes = {
   classes: PropTypes.object.isRequired,
+  createUser: PropTypes.func.isRequired
 };
 
 
