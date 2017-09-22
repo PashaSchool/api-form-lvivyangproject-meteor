@@ -7,7 +7,11 @@ import {
     SWITCH_MODE_STRUCTURE,
     SWITCH_MODE_EMPLOYEE,
     SWITCH_MODE_BRANCH,
-    ADD_NEW_BRANCH
+    ADD_NEW_BRANCH,
+    GET_ALL_BRANCH,
+    SELECTED_BRANCH,
+    RESET_SELECTED_BRANCH,
+    UPDATE_BRANCH
 } from '../constant'
 
 export function setError(err) {
@@ -96,5 +100,55 @@ export function addNewBranchAsync(branch) {
             }
         });
 
+    }
+}
+
+function gettAllBranch(branch) {
+    return {
+        type: GET_ALL_BRANCH,
+        payload: branch
+    }
+}
+
+export function getAllBranchAsync() {
+    return (dispatch) => {
+        Meteor.call('branch.getAll', (err, response) => {
+            if(!err) {
+                return dispatch(gettAllBranch(response))
+            }
+            dispatch(setError(err))
+        })
+    }
+}
+
+export function selectCurentBranch(branch) {
+    return {
+        type: SELECTED_BRANCH,
+        branch
+    }
+}
+
+export function resetSelectedBranch() {
+    return {
+        type: RESET_SELECTED_BRANCH
+    }
+}
+
+function updateBranch( _id, updates) {
+    return {
+        type: UPDATE_BRANCH,
+        _id,
+        updates
+    }
+}
+
+export function updateBranchAsync(_id, updates) {
+    return (dispatch, _id, updates) => {
+        Meteor.call('branch.update', _id, updates, (err, resp) => {
+            if(!err) {
+                dispatch(updateBranch( _id, updates))
+            }
+            dispatch(setError(err))
+        })
     }
 }

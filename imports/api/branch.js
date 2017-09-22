@@ -93,7 +93,8 @@ Meteor.methods({
             }).validate({ _id, ...updates });
 
         } catch (e) {
-            return { error: new Meteor.Error(e) }
+            // return { error: new Meteor.Error(e) }
+            throw new Meteor.Error(e);
         }
 
         return Promise.resolve(Branch.update({ _id }, { $set: {...updates } }))

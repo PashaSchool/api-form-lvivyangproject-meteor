@@ -5,21 +5,31 @@ import HeaderForm from './HeaderForm'
 import FormDropDown from './FormDropDown'
 import BranchFormFields from './BranchFormFields'
 
+
 import {connect} from 'react-redux'
 //actions
-import {branchEditMode} from '../actions'
+import {branchEditMode, getAllBranchAsync, selectCurentBranch} from '../actions'
 
 class FormContainerBranch extends React.Component {
     constructor(props) {
         super(props)
     }
+    componentWillMount() {
+        this.props.getAllBranch()
+        // _idOfSelectedBranch
+    }
+
     render() {
-        const {branchEdit, branchEditMode} = this.props;
-        console.log("this.props.branchEdit is", branchEdit)
+        // console.log("RENDER COMPONENT");
+        const {branchEdit, branchEditMode, selectedBrunch, branch, _idOfSelectedBranch} = this.props;
         return (
             <div>
                 <HeaderForm title="Branch" isChecked={branchEdit} handleOnChange={() => branchEditMode()}/>
-                {branchEdit && <FormDropDown/>}
+                {branchEdit && <FormDropDown item={branch} onChange={(branch) => { 
+                        let obj = JSON.parse(branch);
+                        selectedBrunch(obj)
+                     }}
+                />}
                 <BranchFormFields/>
             </div>
         )
@@ -27,12 +37,16 @@ class FormContainerBranch extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
-    branchEdit: state.switcher.branchEditMode
+    branchEdit: state.switcher.branchEditMode,
+    branch: state.branch.branchArray,
+    _idOfSelectedBranch: state.branch.selectedBranch
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        branchEditMode: () => dispatch(branchEditMode())
+        branchEditMode: () => dispatch(branchEditMode()),
+        getAllBranch: () => dispatch(getAllBranchAsync()),
+        selectedBrunch: (branch) => dispatch(selectCurentBranch(branch))
     }
 };
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const FormButtonGroup = ({showEditMode, addItem, clearFields}) => {
+const FormButtonGroup = ({showEditMode, addItem, clearFields, editItem}) => {
     function triggerButtonGroup() {
         if(!showEditMode) {
             return (
@@ -14,7 +14,7 @@ const FormButtonGroup = ({showEditMode, addItem, clearFields}) => {
         return (
             <div>
                 <button>Delete</button>
-                <button>Edit</button>
+                <button onClick={() => editItem()}>Edit</button>
             </div>
         )
     }

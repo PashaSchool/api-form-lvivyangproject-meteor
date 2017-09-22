@@ -30,6 +30,54 @@ Meteor.startup(() => {
 });
 
 
+
+
+// Meteor.startup(() => {
+// 	const API_URL = 'https://lviv-it-yangproject-api.herokuapp.com';
+// 	const BRANH= '/api/branches';
+
+// 	let btn = document.getElementById('btn');
+// 	btn.addEventListener('click', action);
+// 	// // let xhr = new XMLHttpRequest();
+// 	function memoize(f) {
+// 		var cache = {};
+
+// 		return function() {
+// 			var argStr = JSON.stringify(arguments);
+// 			console.log("arguments", arguments);
+// 			if(cache[argStr] == cache[argStr]) {
+// 				console.log('is chached ', cache[argStr])
+// 			}
+// 			cache[argStr] = cache[argStr] || f.apply(f, arguments);
+// 			return cache[argStr];
+
+// 		}
+// 	}
+// 	var rez = memoize(function(x) {
+// 		return x * x
+// 	});
+// 	function action(e) {
+// 		let rez = memoize(function(x) {
+// 			return x * x
+// 		});
+
+// 		console.log(rez(5))
+// 	}
+
+
+
+
+// })
+
+
+
+
+
+
+
+
+
+
 // import axios from 'axios'
 
 // const API_URL = 'https://lviv-it-yangproject-api.herokuapp.com';
