@@ -11,7 +11,8 @@ import {
     GET_ALL_BRANCH,
     SELECTED_BRANCH,
     RESET_SELECTED_BRANCH,
-    UPDATE_BRANCH
+    UPDATE_BRANCH,
+    REMOVE_BRANCH
 } from '../constant'
 
 export function setError(err) {
@@ -143,12 +144,29 @@ function updateBranch( _id, updates) {
 }
 
 export function updateBranchAsync(_id, updates) {
-    return (dispatch, _id, updates) => {
+    return (dispatch) => {
         Meteor.call('branch.update', _id, updates, (err, resp) => {
             if(!err) {
-                dispatch(updateBranch( _id, updates))
+               return dispatch(updateBranch( _id, updates))
             }
             dispatch(setError(err))
+        })
+    }
+}
+
+function removeBranch(_id) {
+    return {type: REMOVE_BRANCH, _id}
+};
+
+export function removeBranchAsync(_id) {
+    return (dispatch) => {
+        Meteor.call('branch.remove', _id, (err, resp) => {
+            console.log("err, resp", err, resp, _id)
+            if(!err) {
+                return dispatch(removeBranch(_id))
+             }
+             throw new Meteor.Error(err)
+            //  dispatch(setError(err))
         })
     }
 }

@@ -1,11 +1,30 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import {Meteor} from 'meteor/meteor'
+// import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import { withStyles } from 'material-ui/styles';
 //components
 import FormButtonGroup from './FormButtonsGroup';
 
 //actions
-import {addNewBranchAsync, updateBranchAsync} from '../actions';
+import {addNewBranchAsync, updateBranchAsync, resetSelectedBranch, removeBranchAsync} from '../actions';
+
+// ui components
+import TextField from 'material-ui/TextField'
+
+const styles = theme => ({
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexDirection: 'column'
+    },
+    textField: {
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit,
+      width: 300,
+    }
+  });
+
 
 class BranchFormFields extends Component {
     constructor(props) {
@@ -17,40 +36,42 @@ class BranchFormFields extends Component {
         }
     }
 
-    handleChange = (e) => {
+    handleChange = name => e => {
         let value = e.target.value;
-
-        if(e.target.name === 'order') {
+        if(e.target.type === 'number') {
             return this.setState({
-                [e.target.name]: parseInt(value)
+                [name] : parseInt(value)
             })
         }
         return this.setState({
-            [e.target.name]: value
+            [name] : value
         })
     }
     handleAddBranch = (branch, addBranch) => {
         if (branch.title.length > 0 && parseInt(branch.order) > 0) {
-            return addBranch(branch)
+            addBranch(branch)
+            this.clearFieldsValue('title', 'order');
         }
-        return
     }
-    componentWillReceiveProps(nextProps) {
-        if(Object.keys(nextProps.selectedBranch).length > 0) {
+    handleUpdateBranch = (_id, updates) => {
+        this.props.updateBranch(_id, updates)
+    }
+    componentWillReceiveProps({selectedBranch, branchEdit}) {
+        if(Object.keys(selectedBranch).length > 0) {
             this.setState({
-                title: nextProps.selectedBranch.title,
-                order: nextProps.selectedBranch.order
+                title: selectedBranch.title,
+                order: selectedBranch.order
             })
+        }
+        // if(Object.keys(selectedBranch).length === 0 && !branchEdit) {
+        //     this.clearFieldsValue('title', 'order');
+        // }
+        if(Object.keys(selectedBranch).length === 0) {
+            this.clearFieldsValue('title', 'order')
         }
     }
     clearFieldsValue = (...inputs) => {
-        inputs
-            .filter(function(item) {
-                return item.value !== '' && (item.type === 'text' || item.type === 'number')
-            })
-            .map(function(item) { 
-                return item.value === ''
-            }) 
+        inputs.map(item => this.setState({[item]: ''}))
     }
     detectUpdates = (thisState, thisProps) => {
         const updates = {};
@@ -64,59 +85,65 @@ class BranchFormFields extends Component {
 
     render() {
         const {title, order} = this.state;
-        const {addBranch, selectedBranch, branchEdit, updateBranch} = this.props;
-        const {titleNode, orderNode, handleAddBranch, clearFieldsValue, detectUpdates} = this;
+        const {handleChange, clearFieldsValue, handleAddBranch, detectUpdates, state} = this;
+        const {branchEdit, addBranch, classes, selectedBranch, updateBranch, removeBranch} = this.props;
+
         const branch = {
             title,
             order: parseInt(order)
         };
-        const updates = this.detectUpdates(this.state, selectedBranch);
-        const isEditMode = (Object.keys(selectedBranch).length > 0) && branchEdit;
+        const updates = detectUpdates(state, selectedBranch);
+
         return (
             <div>
-                <div>
-                    <input
-                        type='text'
-                        placeholder='title'
-                        name='title'
+                <form className={classes.container} noValidate autoComplete="off">
+                    
+                    <TextField
                         value={title}
-                        onChange={this.handleChange}
-                        ref={node => this.titleNode = node}/>
-                    <input
-                        type='number'
-                        placeholder='order'
-                        name='order'
+                        onChange={handleChange('title')}
+                        name="title"
+                        className={classes.textField}
+                        type="text"
+                        margin="normal"
+                        label="Title"
+                    />
+                    <TextField
                         value={order}
-                        onChange={this.handleChange}
-                        ref={node => this.orderNode = node}/>
-                </div>
+                        onChange={handleChange('order')}
+                        name="order"
+                        className={classes.textField}
+                        type="number"
+                        margin="normal"
+                        label="Order"
+                    />
+                </form>
                 <div>
-                    <FormButtonGroup
-                        editItem={() => updateBranch(selectedBranch._id, updates)}
-                        clearFields={() => clearFieldsValue(titleNode, orderNode)}
-                        addItem={() =>  handleAddBranch(branch, addBranch)}
-                        showEditMode={branchEdit}/>
+                <FormButtonGroup 
+                    showEditMode={branchEdit}
+                    addItem={() => handleAddBranch(branch, addBranch)}
+                    removeItem={() => removeBranch(selectedBranch._id)}
+                    editItem={() => this.handleUpdateBranch(selectedBranch._id, updates)}
+                    clearFields={() => clearFieldsValue('title', 'order')}/>
                 </div>
             </div>
         )
     }
 }
-BranchFormFields.propTypes = {
-    branchEdit: PropTypes.bool.isRequired,
-    addBranch: PropTypes.func.isRequired,
-    selectedBranch: PropTypes.object.isRequired,
-}
 
-const mapStateToProps = (state) => ({
-    branchEdit: state.switcher.branchEditMode,
-    selectedBranch: state.branch.selectedBranch 
+
+const mapStateToProps = ({switcher, branch}) => ({
+    branchEdit: switcher.branchEditMode,
+    selectedBranch: branch.selectedBranch 
 })
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addBranch: (branch) => dispatch(addNewBranchAsync(branch)),
-        updateBranch: (id, updates) => dispatch(updateBranchAsync(id, updates))
-    }
-}
+const mapDispatchToProps = (dispatch) => ({
+    addBranch: (branch) => dispatch(addNewBranchAsync(branch)),
+    updateBranch: (id, updates) => dispatch(updateBranchAsync(id, updates)),
+    resetSelectedBranch: () => dispatch(resetSelectedBranch()),
+    removeBranch: (_id) => dispatch(removeBranchAsync(_id))
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(BranchFormFields)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(BranchFormFields))

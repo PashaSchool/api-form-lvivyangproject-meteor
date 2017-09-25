@@ -48,6 +48,7 @@ Meteor.methods({
         return Branch.insert(branch)
     },
     'branch.remove' (_id) {
+        console.log("branch.remove", _id);
         if (!this.userId) {
             throw new Meteor.Error('Потрібна авторизація')
         }
@@ -57,14 +58,7 @@ Meteor.methods({
         } catch (e) {
             throw new Meteor.Error(e.massage)
         }
-
-        let branch;
-
-        return Promise.resolve({...returnCurrentBranch(_id) })
-            .then(obj => branch = obj)
-            .then(() => Branch.remove({ _id }))
-            .then(() => branch)
-
+        return Branch.remove({ _id })
     },
     'branch.reset' () {
         return Branch.remove({});

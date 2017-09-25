@@ -1,20 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Button from 'material-ui/Button';
+import { withStyles } from 'material-ui/styles';
 
-const FormButtonGroup = ({showEditMode, addItem, clearFields, editItem}) => {
+const styles = theme => ({
+    button: {
+      margin: theme.spacing.unit,
+    }
+  });
+
+const FormButtonGroup = ({showEditMode, addItem, clearFields, editItem, removeItem, classes}) => {
     function triggerButtonGroup() {
         if(!showEditMode) {
             return (
                 <div>
-                    <button onClick={() => addItem()}>Add</button>
-                    <button onClick={() => clearFields()}>Reset Fields</button>
+                    <Button raised color="primary" className={classes.button} onClick={addItem}>Add</Button>
+                    <Button raised dense  className={classes.button} onClick={clearFields}>Reset Fields</Button>
                 </div>
             )
         }
         return (
             <div>
-                <button>Delete</button>
-                <button onClick={() => editItem()}>Edit</button>
+                <Button raised color="accent" className={classes.button} onClick={removeItem}>Delete</Button>
+                <Button raised dense  className={classes.button} onClick={editItem}>Edit</Button>
             </div>
         )
     }
@@ -22,9 +30,12 @@ const FormButtonGroup = ({showEditMode, addItem, clearFields, editItem}) => {
 }
 
 
-FormButtonGroup.propTypes = {
-    showEditMode: PropTypes.bool.isRequired,
-    addItem: PropTypes.func
-}
+// FormButtonGroup.propTypes = {
+//     showEditMode: PropTypes.bool.isRequired,
+//     addItem: PropTypes.func,
+//     clearFields: PropTypes.func,
+//     editItem: PropTypes.func,
+//     removeItem: PropTypes.func,
+// }
 
-export default FormButtonGroup
+export default withStyles(styles)(FormButtonGroup)

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 //material ui components
 import Select from 'material-ui/Select';
 import Input from 'material-ui/Input';
+import Typography from 'material-ui/Typography';
 
 function renderOptions(item) {
     let json = JSON.stringify(item);
@@ -11,23 +12,27 @@ function renderOptions(item) {
 }
 
 const FormDropDown = ({onChange, item, selectedTitle}) => (
-    <div>
+    <div style={{display: 'flex'}}>
         <Select
             native
             value={selectedTitle !== '' ? selectedTitle : 'select'}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => {
+                let beObject = JSON.parse(e.target.value);
+                onChange(beObject)
+                }}
             input={< Input id = "age-native-simple" />}>
-            <option value=""/>
+            <option value={selectedTitle !== '' ? selectedTitle : 'select'}/>
             {item.map(renderOptions)}
         </Select>
+        <Typography type="subheading">Selected: {selectedTitle}</Typography>
     </div>
 );
 
 FormDropDown.propTypes = {
     onChange: PropTypes.func.isRequired,
     item: PropTypes.array,
-    selectedTitle: PropTypes.object
-    
+    selectedTitle: PropTypes.string
 }
 
 export default FormDropDown;
+
