@@ -1,6 +1,7 @@
 import {ADD_NEW_BRANCH, GET_ALL_BRANCH, SELECTED_BRANCH, RESET_SELECTED_BRANCH, UPDATE_BRANCH, REMOVE_BRANCH} from '../constant'
 import {combineReducers} from 'redux'
 
+
 const initialState = [];
 
 function branchArray(state = initialState, action) {
@@ -22,8 +23,9 @@ function branchArray(state = initialState, action) {
             return state
     }
 }
-const defaultSelected = {};
 
+
+const defaultSelected = {};
 function selectedBranch(state = defaultSelected, action) {
     switch(action.type) {
         case SELECTED_BRANCH:
@@ -35,9 +37,12 @@ function selectedBranch(state = defaultSelected, action) {
     }
 }
 
+
+
 const branch = combineReducers({
     branchArray,
     selectedBranch
-})
+});
+
 
 export default branch

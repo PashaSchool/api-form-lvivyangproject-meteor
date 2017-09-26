@@ -2,12 +2,12 @@
   "name": "apiREST_for_lmr",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "start": "meteor run --port 3000",
     "rest:project": "rm -rf .meteor/local && meteor reset",
     "test": "meteor test --driver-package=practicalmeteor:mocha --port 8080",
     "eslint:watch": "esw ./imports/ui/*.js --cache --watch --fix",
     "db": "meteor mongo",
-    "a": "node alg.js"
+    "a": "meteor npm install uuid --save"
   },
   "engines": {
     "node": "4.8.4"
@@ -25,7 +25,8 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "eslint": "^4.7.1",

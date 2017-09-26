@@ -15,6 +15,8 @@ import {
     REMOVE_BRANCH
 } from '../constant'
 
+import './structure_action'
+
 export function setError(err) {
     return {type: HANDLE_ERROR, err}
 }

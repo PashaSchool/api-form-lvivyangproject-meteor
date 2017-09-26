@@ -7,6 +7,7 @@ import { withStyles } from 'material-ui/styles'
 
 //component
 import FormContainerBranch from './FormContainerBranch'
+import FormContainerStructure from './FormContainerStructure'
 
 const styles = theme => ({
     root: theme.mixins.gutters({
@@ -24,9 +25,11 @@ const WrapperForm = ({classes}) => (
         <Paper className={classes.root}> 
             <FormContainerBranch/>
         </Paper>
+        <Paper className={classes.root}> 
+            <FormContainerStructure/>
+        </Paper>
     </section>
 );
-
 
 PropTypes.propTypes = {
     classes: PropTypes.object.isRequired,

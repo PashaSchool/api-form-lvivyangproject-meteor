@@ -63,9 +63,9 @@ class BranchFormFields extends Component {
                 order: selectedBranch.order
             })
         }
-        // if(Object.keys(selectedBranch).length === 0 && !branchEdit) {
-        //     this.clearFieldsValue('title', 'order');
-        // }
+        if(Object.keys(selectedBranch).length === 0 && !branchEdit) {
+            this.clearFieldsValue('title', 'order');
+        }
         if(Object.keys(selectedBranch).length === 0) {
             this.clearFieldsValue('title', 'order')
         }
