@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 // actions
 import {structureEditMode} from '../actions'
 
@@ -9,6 +10,10 @@ import FormDropDown from './FormDropDown'
 import StructureFormFields from './StructureFormFields'
 
 class FormContainerStructure extends Component {
+    static propTypes {
+        editStructureMode: PropTypes.bool.isRequired,
+        onChangeMode: PropTypes.func.isRequired
+    }
     render() {
         const { editStructureMode, onChangeMode } = this.props;
         return (
@@ -27,11 +32,4 @@ const mapStateToProps = ({switcher}) => ({
   editStructureMode: switcher.structureEditMode
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onChangeMode: () => dispatch(structureEditMode())
-    }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(FormContainerStructure)
+export default connect(mapStateToProps, {mapDispatchToProps})(FormContainerStructure)
